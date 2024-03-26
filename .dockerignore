@@ -1,4 +1,7 @@
+*~
+.dockerignore
 .hg
+Dockerfile
 
 # Remove the git objects, logs, etc. to make final image smaller.
 # Some files still need to be in the .git directory, because Etherpad at
@@ -16,7 +19,9 @@
 .git/ORIG_HEAD
 .git/packed-refs
 .git/refs/remotes/
+.git/rr-cache/
 .gitignore
 
 settings.json
 src/node_modules
+admin/node_modules

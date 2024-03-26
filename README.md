@@ -1,114 +1,292 @@
-# Etherpad-Lite Heroku
+# Etherpad: A real-time collaborative editor for the web
 
-Deploy Etherpad-Lite on Heroku. Whole Etherpad-Lite configuration, including plugins, can be specified in Heroku configuration variables (ENV).
+![Demo Etherpad Animated Jif](doc/public/etherpad_demo.gif "Etherpad in action")
 
-## Running
+## About
 
-### Cloning
+Etherpad is a real-time collaborative editor [scalable to thousands of
+simultaneous real time users](http://scale.etherpad.org/). It provides [full
+data
+export](https://github.com/ether/etherpad-lite/wiki/Understanding-Etherpad's-Full-Data-Export-capabilities)
+capabilities, and runs on _your_ server, under _your_ control.
 
-As the project has Etherpad as submodule, you need to clone it with `--recursive` flag:
+## Try it out
 
-`git clone --recursive https://github.com/citizenos/etherpad-lite-heroku.git`
+Wikimedia provide a [public Etherpad instance for you to Try Etherpad out.](https://etherpad.wikimedia.org) or [use another public Etherpad instance to see other features](https://github.com/ether/etherpad-lite/wiki/Sites-That-Run-Etherpad#sites-that-run-etherpad)
 
-### Configuration
+## Project Status
 
-Configuration can be specified in 2 ways:
+We're looking for maintainers and have some funding available.  Please contact John McLear if you can help.
 
-* File (`config/local.json`) - designed for development environments where file configuration is simpler to maintain than env variables. See the example [local.json](config/local.json.example)
-* Environment variables - this is where all Heroku configuration variables show up.
+### Code Quality
 
-**NOTE:** Environment variables override `config/local.json`.
+[![Code Quality](https://github.com/ether/etherpad-lite/actions/workflows/codeql-analysis.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/codeql-analysis.yml)
 
-#### Etherpad-Lite configuration variables
+### Testing
 
-In Heroku config variables (ENV):
+[![Backend tests](https://github.com/ether/etherpad-lite/actions/workflows/backend-tests.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/backend-tests.yml)
+[![Simulated Load](https://github.com/ether/etherpad-lite/actions/workflows/load-test.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/load-test.yml)
+[![Rate Limit](https://github.com/ether/etherpad-lite/actions/workflows/rate-limit.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/rate-limit.yml)
+[![Docker file](https://github.com/ether/etherpad-lite/actions/workflows/dockerfile.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/dockerfile.yml)
+[![Frontend admin tests powered by Sauce Labs](https://github.com/ether/etherpad-lite/actions/workflows/frontend-admin-tests.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/frontend-admin-tests.yml)
+[![Frontend tests powered by Sauce Labs](https://github.com/ether/etherpad-lite/actions/workflows/frontend-tests.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/frontend-tests.yml)
+[![Sauce Test Status](https://saucelabs.com/buildstatus/etherpad.svg)](https://saucelabs.com/u/etherpad)
+[![Windows Build](https://github.com/ether/etherpad-lite/actions/workflows/windows.yml/badge.svg?color=%2344b492)](https://github.com/ether/etherpad-lite/actions/workflows/windows.yml)
 
-* `ETHERPAD_SETTINGS` - JSON string of the whole standard Etherpad-Lite `settings.json`.
-* `ETHERPAD_SESSION_KEY` - The secret stored in Etherpad-Lite `SESSIONKEY.txt`.
-* `ETHERPAD_API_KEY` - The secret stored in Etherpad-Lite `APIKEY.txt`.
-* `DATABASE_URL` - Default database URI environment variable set by Heroku. It overrides all other DB configurations.
+### Engagement
 
-JSON defined in `ETHERPAD_SETTINGS` or `config/local.json`:
+[![Docker Pulls](https://img.shields.io/docker/pulls/etherpad/etherpad?color=%2344b492)](https://hub.docker.com/r/etherpad/etherpad)
+[![Discord](https://img.shields.io/discord/741309013593030667?color=%2344b492)](https://discord.com/invite/daEjfhw)
+[![Etherpad plugins](https://img.shields.io/endpoint?url=https%3A%2F%2Fstatic.etherpad.org%2Fshields.json&color=%2344b492 "Etherpad plugins")](https://static.etherpad.org/index.html)
+![Languages](https://img.shields.io/static/v1?label=Languages&message=105&color=%2344b492)
+![Translation Coverage](https://img.shields.io/static/v1?label=Languages&message=98%&color=%2344b492)
 
-* `___apiKey` - The secret stored in Etherpad-Lite `APIKEY.txt`.
-* `___sessionKey` - The secret stored in Etherpad-Lite `SESSIONKEY.txt`.
-* `___version` - Per plugin configuration. Version of plugin to be installed by NPM.
+## Installation
 
-#### Plugin configuration
+### Requirements
 
-Plugin version and configuration can be specified. Plugins are configured as you would normally do in Etherpad-Lite `settings.json`, but you can also specify plugin version which will be installed by NPM.
+[Node.js](https://nodejs.org/) >= **18.18.2**.
 
-* `___version` - version of the plugin to be installed.
+### GNU/Linux and other UNIX-like systems
 
-Example plugin config in `ETHERPAD_SETTINGS` or `config/local.json`:
+#### Quick install on Debian/Ubuntu
 
+Install the latest Node.js LTS per [official install instructions](https://github.com/nodesource/distributions#installation-instructions), then:
+```sh
+git clone --branch master https://github.com/ether/etherpad-lite.git &&
+cd etherpad-lite &&
+bin/run.sh
 ```
-  "ep_themes_ext": {
-    "___version": "0.0.4",
-    "default": [
-      "https://dev.citizenos.com:3001/static/styles/etherpad.css"
-    ]
-  }
+
+#### Manual install
+
+You'll need Git and [Node.js](https://nodejs.org/) installed.
+
+**As any user (we recommend creating a separate user called etherpad):**
+
+  1. Move to a folder where you want to install Etherpad.
+  2. Clone the Git repository: `git clone --branch master
+     https://github.com/ether/etherpad-lite.git`
+  3. Change into the new directory containing the cloned source code: `cd
+     etherpad-lite`
+  4. Run `bin/run.sh` and open http://127.0.0.1:9001 in your browser.
+
+To update to the latest released version, execute `git pull origin`. The next
+start with `bin/run.sh` will update the dependencies.
+
+### Windows
+
+#### Prebuilt Windows package
+
+This package runs on any Windows machine. You can perform a manual installation
+via git for development purposes, but as this uses symlinks which performs
+unreliably on Windows, please stick to the prebuilt package if possible.
+
+  1. [Download the latest Windows package](https://etherpad.org/#download)
+  2. Extract the folder
+
+Run `start.bat` and open <http://localhost:9001> in your browser.
+
+#### Manually install on Windows
+
+You'll need [Node.js](https://nodejs.org) and (optionally, though recommended)
+git.
+
+  1. Grab the source, either:
+      * download <https://github.com/ether/etherpad-lite/zipball/master>
+      * or `git clone --branch master
+        https://github.com/ether/etherpad-lite.git`
+  2. With a "Run as administrator" command prompt execute
+     `bin\installOnWindows.bat`
+
+Now, run `start.bat` and open http://localhost:9001 in your browser.
+
+Update to the latest version with `git pull origin`, then run
+`bin\installOnWindows.bat`, again.
+
+If cloning to a subdirectory within another project, you may need to do the
+following:
+
+  1. Start the server manually (e.g. `node src/node/server.ts`)
+  2. Edit the db `filename` in `settings.json` to the relative directory with
+     the file (e.g. `application/lib/etherpad-lite/var/dirty.db`)
+  3. Add auto-generated files to the main project `.gitignore`
+
+### Docker container
+
+Find [here](doc/docker.adoc) information on running Etherpad in a container.
+
+## Plugins
+
+Etherpad is very customizable through plugins.
+
+![Basic install](doc/public/etherpad_basic.png "Basic Installation")
+
+![Full Features](doc/public/etherpad_full_features.png "You can add a lot of plugins !")
+
+### Available Plugins
+
+For a list of available plugins, see the [plugins
+site](https://static.etherpad.org).
+
+### Plugin Installation
+
+You can install plugins from the admin web interface (e.g.,
+http://127.0.0.1:9001/admin/plugins).
+
+Alternatively, you can install plugins from the command line:
+
+```sh
+cd /path/to/etherpad-lite
+pnpm run install-plugins ep_${plugin_name}
 ```
-#### Etherpad-Lite Heroku specific conf
 
-* `ETHERPAD_LITE_HEROKU_LOGGER_LEVEL` - Logging level for the [start.js](start.js) script.
+Also see [the plugin wiki
+article](https://github.com/ether/etherpad-lite/wiki/Available-Plugins).
 
-### Run
+### Suggested Plugins
 
-#### Heroku
+Run the following command in your Etherpad folder to get all of the features
+visible in the above demo gif:
 
-Push it to your Heroku and Heroku will just run it picking up the entry point from [Procfile](Procfile)
-
-**NOTE!** As this project uses Etherpad as a submodule, **Heroku autodeploys and deploys from web WILL NOT WORK as these do not check out submodules**. **The only way to deploy is to push to Heroku manually using remotes**
-
-* Add a remote, if you do not have - for ex: `git remote add test https://git.heroku.com/citizenos-etherpad-web-test.git`.
-* Push to a remote to deploy: `git push test`.
-
-**NOTE2: YOU WILL probably get this error:**
+```sh
+pnpm run install-plugins \
+  ep_align \
+  ep_comments_page \
+  ep_embedded_hyperlinks2 \
+  ep_font_color \
+  ep_headings2 \
+  ep_markdown \
+  ep_webrtc
 ```
-2021-04-13T17:35:56.716031+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 180 seconds of launch
-```
-Heroku has a fixed time for the app to boot and bind to a port. If it does not, "Boot timeout" error is thrown.
-YOU MUST ask Heroku Customer Support (no jokes, best in the world), to increase your boot timeout whatever maximum they alow. EP-Heroku boots long as the startup procedure involves long NPM install anddownloading plugins from NPM.
 
+For user authentication, you are encouraged to run an [OpenID
+Connect](https://openid.net/connect/) identity provider (OP) and install the
+following plugins:
 
-### Development notes
+  * [ep_openid_connect](https://github.com/ether/ep_openid_connect#readme) to
+    authenticate against your OP.
+  * [ep_guest](https://github.com/ether/ep_guest#readme) to create a
+    "guest" account that has limited access (e.g., read-only access).
+  * [ep_user_displayname](https://github.com/ether/ep_user_displayname#readme)
+    to automatically populate each user's displayed name from your OP.
+  * [ep_stable_authorid](https://github.com/ether/ep_stable_authorid#readme) so
+    that each user's chosen color, display name, comment ownership, etc. is
+    strongly linked to their account.
 
-#### Running locally
+## Next Steps
 
-After first checkout:
+### Tweak the settings
 
-* Run: `git submodule init && git submodule update` - this will update Etherpad submodule
+You can modify the settings in `settings.json`. If you need to handle multiple
+settings files, you can pass the path to a settings file to `bin/run.sh`
+using the `-s|--settings` option: this allows you to run multiple Etherpad
+instances from the same installation. Similarly, `--credentials` can be used to
+give a settings override file, `--apikey` to give a different APIKEY.txt file
+and `--sessionkey` to give a non-default `SESSIONKEY.txt`. **Each configuration
+parameter can also be set via an environment variable**, using the syntax
+`"${ENV_VAR}"` or `"${ENV_VAR:default_value}"`. For details, refer to
+`settings.json.template`. Once you have access to your `/admin` section,
+settings can be modified through the web browser.
 
-To run the app:
+If you are planning to use Etherpad in a production environment, you should use
+a dedicated database such as `mysql`, since the `dirtyDB` database driver is
+only for testing and/or development purposes.
 
-* `npm run start-dev`
+### Secure your installation
 
-**NOTE:** When running locally with Citizen OS API, you may run into issues with certificate chain validation because of the API calls. In that case for **DEV ONLY** you can turn off the validation starting the app `NODE_TLS_REJECT_UNAUTHORIZED=0 npm run start-dev`.
-**NOTE2:** DO NOT commit the generated `package.json`. If generated plugin configuration is in the `package.json` `/config/` has no effect.
+If you have enabled authentication in `users` section in `settings.json`, it is
+a good security practice to **store hashes instead of plain text passwords** in
+that file. This is _especially_ advised if you are running a production
+installation.
 
-#### Developing and testing EP plugins with this project
+Please install [ep_hash_auth plugin](https://www.npmjs.com/package/ep_hash_auth)
+and configure it. If you prefer, `ep_hash_auth` also gives you the option of
+storing the users in a custom directory in the file system, without having to
+edit `settings.json` and restart Etherpad each time.
 
-* Run ONCE: `git submodule init && git submodule update` - this will update Etherpad submodule
-* Run ONCE & KILL after EP starts successfully `npm run start-dev` - Reads your local configuration (env + `local.json`), prepares it for Etherpad and installs all Etherpad dependences.  
-* Run & leave running: `./bin/scripts/sync ${ABS_PATH_TO_YOUR_PLUGIN}` (ex: `./bin/scripts/sync.sh /home/m/dev/ep_auth_citizenos`) - this will sync your local plugin checkout to directory Etherpad uses on runtime.
-    * **NOTE:** Symlinks cannot be used as plugin fails to resolve dependencies correctly.
-* Run Etherpad `NODE_TLS_REJECT_UNAUTHORIZED=0 ./etherpad-lite/bin/fastRun.sh` - Runs Etherpad without installing dependencies, uses your local plugin code if sync mentioned above is active. 
-    * **NOTE:** You do need to restart EP for changes in plugin code.
-    
-#### Upgrading Etherpad
+### Customize the style with skin variants
 
-Etherpad is bundled as a Git submodule to this project. 
+Open http://127.0.0.1:9001/p/test#skinvariantsbuilder in your browser and start
+playing!
 
-To update Etherpad version:
+![Skin Variant](doc/public/etherpad_skin_variants.gif "Skin variants")
 
-* Find the specific commit hash of the release.
-* `cd ./etherpad-lite && git checkout master && git pull && git checkout ${EP_NEW_VERSION_COMMIT_HASH} && cd ..`.
-* Update `.gitmodules` file, set the `branch = ${EP_NEW_VERSION_COMMIT_HASH}`.
-* `git commit -a -m "Upgrade Etherpad to version ${ETHERPAD_VERSION}"`.
+## Helpful resources
 
-## Credits
+The [wiki](https://github.com/ether/etherpad-lite/wiki) is your one-stop
+resource for Tutorials and How-to's.
 
-* This project started as a fork of https://github.com/bright-star/etherpad-lite-heroku and basic concepts are borrowed from there.
-* [CitizenOS](https://citizenos.com) for funding the development
+Documentation can be found in `doc/`.
+
+## Development
+
+### Things you should know
+
+You can debug Etherpad using `bin/debugRun.sh`.
+
+You can run Etherpad quickly launching `bin/fastRun.sh`. It's convenient for
+developers and advanced users. Be aware that it will skip the dependencies
+update, so remember to run `bin/installDeps.sh` after installing a new
+dependency or upgrading version.
+
+If you want to find out how Etherpad's `Easysync` works (the library that makes
+it really realtime), start with this
+[PDF](https://github.com/ether/etherpad-lite/raw/master/doc/easysync/easysync-full-description.pdf)
+(complex, but worth reading).
+
+### Contributing
+
+Read our [**Developer
+Guidelines**](https://github.com/ether/etherpad-lite/blob/master/CONTRIBUTING.md)
+
+### HTTP API
+
+Etherpad is designed to be easily embeddable and provides a [HTTP
+API](https://github.com/ether/etherpad-lite/wiki/HTTP-API) that allows your web
+application to manage pads, users and groups. It is recommended to use the
+[available client
+implementations](https://github.com/ether/etherpad-lite/wiki/HTTP-API-client-libraries)
+in order to interact with this API.
+
+OpenAPI (previously swagger) definitions for the API are exposed under
+`/api/openapi.json`.
+
+### jQuery plugin
+
+There is a [jQuery plugin](https://github.com/ether/etherpad-lite-jquery-plugin)
+that helps you to embed Pads into your website.
+
+### Plugin Framework
+
+Etherpad offers a plugin framework, allowing you to easily add your own
+features. By default your Etherpad is extremely light-weight and it's up to you
+to customize your experience. Once you have Etherpad installed you should [visit
+the plugin page](https://static.etherpad.org/) and take control.
+
+### Translations / Localizations  (i18n / l10n)
+
+Etherpad comes with translations into all languages thanks to the team at
+[TranslateWiki](https://translatewiki.net/).
+
+If you require translations in [plugins](https://static.etherpad.org/) please
+send pull request to each plugin individually.
+
+## FAQ
+
+Visit the **[FAQ](https://github.com/ether/etherpad-lite/wiki/FAQ)**.
+
+## Get in touch
+
+The official channel for contacting the development team is via the [GitHub
+issues](https://github.com/ether/etherpad-lite/issues).
+
+For **responsible disclosure of vulnerabilities**, please write a mail to the
+maintainers (a.mux@inwind.it and contact@etherpad.org).
+
+Join the official [Etherpad Discord
+Channel](https://discord.com/invite/daEjfhw).
+
+## License
+
+[Apache License v2](http://www.apache.org/licenses/LICENSE-2.0.html)
