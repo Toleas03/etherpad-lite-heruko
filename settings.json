@@ -208,11 +208,11 @@
 
   "dbType" : "mysql",
   "dbSettings" : {
-    "user":     "root",
-    "host":     "localhost",
+    "user":     "tdwv5mzzm6w7r47e	",
+    "host":     "sabaik6fx8he7pua.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
     "port":     3306,
-    "password": "",
-    "database": "creativsync"
+    "password": "itva609ozgv6p532",
+    "database": "sex1laaapx3pi3es"
   },
   /*
    * An Example of MySQL Configuration (commented out).
