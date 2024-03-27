@@ -117,7 +117,7 @@
     "test": "mocha --import=tsx --timeout 120000 --recursive tests/backend/specs/**.ts ../node_modules/ep_*/static/tests/backend/specs/**",
     "test-container": "mocha --import=tsx --timeout 5000 tests/container/specs/api",
     "dev": "node --import tsx node/server.ts",
-    "start": "node --import tsx node/server.ts",
+    "start": "node node/server.js",
     "heroku-postbuild": "tsc",
     "prod": "node --import tsx node/server.ts",
     "ts-check": "tsc --noEmit",
