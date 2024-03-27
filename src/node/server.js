@@ -1,3 +1,5 @@
 var etherpad = require('etherpad-lite');
-etherpad.settings.port = process.env.PORT || 9001;
-etherpad.start();
+var http = require('http');
+
+var server = http.createServer(etherpad.app);
+server.listen(process.env.PORT || 9001);
