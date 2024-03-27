@@ -113,6 +113,12 @@
     "url": "https://github.com/ether/etherpad-lite.git"
   },
   "scripts": {
+    "start": "node node/server.js",
+    "dev": "node --import tsx node/server.ts",
+    "test": "mocha --import=tsx --timeout 120000 --recursive tests/backend/specs/**.ts ../node_modules/ep_*/static/tests/backend/specs/**",
+    "heroku-postbuild": "tsc"
+  },
+  "scriptsold": {
     "lint": "eslint .",
     "test": "mocha --import=tsx --timeout 120000 --recursive tests/backend/specs/**.ts ../node_modules/ep_*/static/tests/backend/specs/**",
     "test-container": "mocha --import=tsx --timeout 5000 tests/container/specs/api",
