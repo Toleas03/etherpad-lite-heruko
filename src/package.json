@@ -115,23 +115,17 @@
   "scripts": {
     "start": "node node/server.js",
     "dev": "node --import tsx node/server.ts",
-    "test": "mocha --import=tsx --timeout 120000 --recursive tests/backend/specs/**.ts ../node_modules/ep_*/static/tests/backend/specs/**",
-    "heroku-postbuild": "tsc"
-  },
-  "scriptsold": {
-    "lint": "eslint .",
-    "test": "mocha --import=tsx --timeout 120000 --recursive tests/backend/specs/**.ts ../node_modules/ep_*/static/tests/backend/specs/**",
-    "test-container": "mocha --import=tsx --timeout 5000 tests/container/specs/api",
-    "dev": "node --import tsx node/server.ts",
-    "start": "node node/server.js",
-    "heroku-postbuild": "tsc",
     "prod": "node --import tsx node/server.ts",
+    "test": "mocha --import=tsx --timeout 120000 --recursive tests/backend/specs/**.ts ../node_modules/ep_*/static/tests/backend/specs/**",
+    "heroku-postbuild": "tsc",
     "ts-check": "tsc --noEmit",
     "ts-check:watch": "tsc --noEmit --watch",
     "test-ui": "npx playwright test tests/frontend-new/specs",
     "test-ui:ui": "npx playwright test tests/frontend-new/specs --ui",
     "test-admin": "npx playwright test tests/frontend-new/admin-spec --workers 1",
-    "test-admin:ui": "npx playwright test tests/frontend-new/admin-spec --ui --workers 1"
+    "test-admin:ui": "npx playwright test tests/frontend-new/admin-spec --ui --workers 1",
+    "lint": "eslint .",
+    "test-container": "mocha --import=tsx --timeout 5000 tests/container/specs/api"
   },
   "version": "2.0.1",
   "license": "Apache-2.0"
